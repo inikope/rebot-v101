@@ -94,7 +94,7 @@ app.get('/', (req, res) => {
         }).then(images => images.map(img => img.node.text))
         Promise.all([p1]).then(function(values){
             console.log(values[0][0]);
-            return replyText(token, values[0][0]);
+            return replyText(token, "𝐂𝐚𝐩𝐭𝐢𝐨𝐧:\n" + values[0][0]);
             });
         }
 
