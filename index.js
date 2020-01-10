@@ -93,7 +93,7 @@ app.get('/', (req, res) => {
             const { entry_data: { PostPage } } = data;
             console.log(data);
             return PostPage.map(post => post.graphql.shortcode_media)
-        })
+        }).then(images => images.map(img => img.display_url))
         Promise.all([p1]).then(function(values){
             console.log(values[0][0]);
             return client.replyMessage(token, {
