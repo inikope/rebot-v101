@@ -115,11 +115,9 @@ app.get('/', (req, res) => {
         Promise.all([p1,p2]).then(function(values){
             console.log(values);
             return client.replyMessage(token, {
-            type: "image", originalContentUrl: values[1][0], previewImageUrl: values[0][0]
+            type: "video", originalContentUrl: values[1][0], previewImageUrl: values[0][0]
         });
         })
-    }
-
     }
 
   // event handler
@@ -152,7 +150,7 @@ app.get('/', (req, res) => {
             const link = splittedText[1];
             switch (inicommand) {
                 case '/videoig':
-                    return IGfoto(event.replyToken, link);
+                    return IGvid(event.replyToken, link);
                     break;
                 case '/fotoig':
                     return IGfoto(event.replyToken, link);
