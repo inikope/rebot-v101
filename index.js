@@ -89,8 +89,8 @@ app.get('/', (req, res) => {
     function IGcapt(token, igid){
         const p1 = instaDown(igid).then(data => {
             const { entry_data: { PostPage } } = data;
-            console.log(PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges));
-            return PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges)
+            console.log(PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges.node));
+            return PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges.node)
         }).then(images => images.map(img => img.text))
         Promise.all([p1]).then(function(values){
             console.log(values);
@@ -105,6 +105,8 @@ app.get('/', (req, res) => {
             const { entry_data: { PostPage } } = data;
             console.log(PostPage.map(post => post.graphql.shortcode_media));
             return PostPage.map(post => post.graphql.shortcode_media)
+        }).catch(function(){
+            return replyText(token,"Looks like the account is private.")
         }).then(images => images.map(img => img.display_url))
         Promise.all([p1]).then(function(values){
             console.log(values);
@@ -120,11 +122,15 @@ app.get('/', (req, res) => {
             const { entry_data: { PostPage } } = data;
             console.log(PostPage.map(post => post.graphql.shortcode_media));
             return PostPage.map(post => post.graphql.shortcode_media)
+        }).catch(function(){
+            return replyText(token,"Looks like the account is private.")
         }).then(images => images.map(img => img.display_url))
         const p2 = instaDown(igid).then(data => {
             const { entry_data: { PostPage } } = data;
             console.log(PostPage.map(post => post.graphql.shortcode_media));
             return PostPage.map(post => post.graphql.shortcode_media)
+        }).catch(function(){
+            return replyText(token,"Looks like the account is private.")
         }).then(images => images.map(img => img.video_url))
         Promise.all([p1,p2]).then(function(values){
             console.log(values);
