@@ -95,8 +95,8 @@ app.get('/', (req, res) => {
         Promise.all([p1]).then(function(values){
             console.log(values);
             return replyText(token, values);
-            });    
-        })    }
+            });
+        }
 
 
     // Foto Vid IG
