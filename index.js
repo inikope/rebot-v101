@@ -91,10 +91,16 @@ app.get('/', (req, res) => {
             const { entry_data: { PostPage } } = data;
             console.log(PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges[0]));
             return PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges[0])
-        }).then(images => images.map(img => img.node.text))
+        }).catch(function(){
+            return replyText(token,"Looks like the account is private.")
+        }).then(images => images.map(img => img.node.text)).catch(function(){
+            return replyText(token,"Looks like the account is private.")
+        })
         Promise.all([p1]).then(function(values){
             console.log(values[0][0]);
             return replyText(token, "𝐂𝐚𝐩𝐭𝐢𝐨𝐧:\n" + values[0][0]);
+            }).catch(function(){
+                return replyText(token,"Looks like the account is private.")
             });
         }
 
