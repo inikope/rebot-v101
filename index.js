@@ -92,6 +92,7 @@ app.get('/', (req, res) => {
             console.log(PostPage.map(post => post.graphql.shortcode_media));
             return PostPage.map(post => post.graphql.shortcode_media)
         }).then(images => images.map(img => img.edge_media_to_caption))
+        .then(images => images.map(img => img.edges))
         .then(console.log)
     }
 
