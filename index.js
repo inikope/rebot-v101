@@ -88,7 +88,7 @@ app.get('/', (req, res) => {
 
     // Multipost IG
     function IGmulti(token, igid, number){
-        const p1 = instaDown(igid).then(function(hasil){
+        const p1 = instaDown(igid).then(hasil => {
             const { entry_data: { PostPage } } = hasil;
             const data = PostPage.map(post => post.graphql.shortcode_media.edge_sidecar_to_children.edges);
             console.log(data);
