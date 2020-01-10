@@ -86,6 +86,38 @@ app.get('/', (req, res) => {
         })
     }
 
+    // Multipost IG
+    function IGmulti(token, igid, number){
+        const p1 = instaDown(igid).then(data => {
+            const { entry_data: { PostPage } } = data;
+            const data = PostPage.map(post => post.graphql.shortcode_media.edge_sidecar_to_children.edges);
+            const list = {media: [],preview: []};
+
+    		for (let j = 0; j < data.length; j++) {
+	    		const videoUrl = data[j].node.video_url;
+		    	const edge = data[j].node.display_resources[2].src;
+                videoUrl === undefined ? list.media.push(edge) : list.media.push(videoUrl);
+                list.preview.push(edge);
+	    	}
+    	    return {data: list};
+        }).catch(function(){
+            return replyText(token,"Looks like the account is private.")
+        })
+        Promise.all([p1]).then(function(values){
+            if(values.data.media[number].includes(".mp4")){
+                return client.replyMessage(token, {
+                    type: "video", originalContentUrl: values.data.media[number], previewImageUrl: values.data.preview[number]
+                })
+            } else {
+                return client.replyMessage(token, {
+                    type: "image", originalContentUrl: values.data.media[number], previewImageUrl: values.data.preview[number]
+                })
+            }}).catch(function(){
+                return replyText(token,"Looks like the account is private.")
+            });
+    }
+
+    // Caption IG
     function IGcapt(token, igid){
         const p1 = instaDown(igid).then(data => {
             const { entry_data: { PostPage } } = data;
@@ -165,6 +197,7 @@ app.get('/', (req, res) => {
     const tutorCaption 	= "Begini nih cara menggunakan commandnya\n\n/captionig (link post instagram)";
     const tutorCek 		= "Begini nih cara menggunakan commandnya\n\n/bioig (username instagram)";
     const tutorPP 		= "Begini nih cara menggunakan commandnya\n\n/profilig (username instagram)";
+    const tutorMulti    = "Begini nih cara menggunakan commandnya\n\n/multipost (link post instagram) (foto/video ke berapa)";
     const errormess 	= "Terima kasih atas pesannya\nSayang sekali, akun ini masih goblok";
     const sendIntro 	=  "𝙍𝙀:𝘽𝙊𝙏 dapat melakukan beberapa hal loh..\nCoba yuk!\nKetik /help untuk melihat command-command yang kami punya.\n\n\u2605";
     const aboutMe 		= "𝙍𝙀:𝘽𝙊𝙏 adalah chatbot yang dapat membantumu menyimpan foto maupun video dari Instagram.\n\n𝙍𝙀:𝘽𝙊𝙏 dibuat oleh:\n- [2201801636] Hans Nugroho Gianto Hadiwijaya\n- [2201758285] Casandra\n- [2201787915] Mita\n\n\n\uD83C\uDF6C";
@@ -178,7 +211,20 @@ app.get('/', (req, res) => {
       return replyText(event.replyToken, sendIntro);
     } else {
         const receivedMessage = event.message.text;
-        if (receivedMessage.split(" ").length === 2){
+        if (receivedMessage.split(" ").length === 3){
+            const splitText = receivedMessage.split(" ");
+            const command = splitText[0];
+            const link = splitText[1];
+            switch (command){
+                case '/multipost':
+                    const number = parseInt(splitText[2]);
+                    return IGmulti(event.replyToken, link, number);
+                case '/echo':
+                    return replyText(event.replyToken, link + " " + split.text[2]);
+                default:
+                    return replyText(event.replyToken, errormess);
+            }
+        } else if (receivedMessage.split(" ").length === 2){
             const splittedText = receivedMessage.split(" ");
             const inicommand = splittedText[0];
             const link = splittedText[1];
@@ -203,13 +249,17 @@ app.get('/', (req, res) => {
                     break;
         		case '/echo':
         		    return replyText(event.replyToken, link);
-        		    break;
+                    break;
+                case '/multipost':
+                    return replyText(event.replyToken, tutorMulti);
                 default:
                     return replyText(event.replyToken, errormess);
                     break;
             }
         } else {
             switch (receivedMessage) {
+                case '/multipost':
+                    return replyText(event.replyToken, tutorMulti);
                 case '/help':
                     return replyText(event.replyToken, sendHelp);
                     break;
