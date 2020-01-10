@@ -93,8 +93,8 @@ app.get('/', (req, res) => {
             return PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges[0])
         }).then(images => images.map(img => img.node))
         Promise.all([p1]).then(function(values){
-            console.log(values);
-            return replyText(token, values);
+            console.log(values.text);
+            return replyText(token, values.text);
             });
         }
 
