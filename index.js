@@ -91,14 +91,16 @@ app.get('/', (req, res) => {
         const p1 = instaDown(igid).then(hasil => {
             const { entry_data: { PostPage } } = hasil;
             const data = PostPage.map(post => post.graphql.shortcode_media.edge_sidecar_to_children.edges);
+            console.log(data);
             const list = {media: [],preview: []};
 
     		for (let j = 0; j < data.length; j++) {
 	    		const videoUrl = data[j].node.video_url;
-		    	const edge = data[j].node.display_resources[2].src;
+		    	const edge = data[j].node.display_url;
                 videoUrl === undefined ? list.media.push(edge) : list.media.push(videoUrl);
                 list.preview.push(edge);
-	    	}
+            }
+            console.log(list);
     	    return {data: list};
         }).catch(function(){
             return replyText(token,"Looks like the account is private.")
@@ -218,7 +220,7 @@ app.get('/', (req, res) => {
             switch (command){
                 case '/multipost':
                     const number = parseInt(splitText[2]);
-                    return IGmulti(event.replyToken, link, number);
+                    return IGmulti(event.replyToken, link, number-1);
                 case '/echo':
                     return replyText(event.replyToken, link + " " + split.text[2]);
                 default:
