@@ -100,12 +100,12 @@ app.get('/', (req, res) => {
                 videoUrl === undefined ? list.media.push(edge) : list.media.push(videoUrl);
                 list.preview.push(edge);
             }
-            console.log(list);
     	    return {data: list};
         }).catch(function(){
             return replyText(token,"Looks like the account is private.")
         })
         Promise.all([p1]).then(function(values){
+            console.log(values);
             if(values.data.list.media[number].includes(".mp4")){
                 return client.replyMessage(token, {
                     type: "video", originalContentUrl: values.data.list.media[number], previewImageUrl: values.data.list.preview[number]
