@@ -89,11 +89,11 @@ app.get('/', (req, res) => {
     function IGcapt(token, igid){
         const p1 = instaDown(igid).then(data => {
             const { entry_data: { PostPage } } = data;
-            console.log(PostPage.map(post => post.graphql.shortcode_media));
-            return PostPage.map(post => post.graphql.shortcode_media)
-        }).then(images => images.map(img => img.edge_media_to_caption.edges))
+            console.log(PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges));
+            return PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges)
+        }).then(images => images.map(img => img.node))
         Promise.all([p1]).then(function(values){
-            console.log(values.data);
+            console.log(values);
             return replyText(token, values.data);
             });
         }
