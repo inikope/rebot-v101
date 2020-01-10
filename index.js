@@ -91,7 +91,7 @@ app.get('/', (req, res) => {
         const p1 = instaDown(igid).then(hasil => {
             const { entry_data: { PostPage } } = hasil;
             const data = PostPage.map(post => post.graphql.shortcode_media.edge_sidecar_to_children.edges);
-            console.log(data);
+            console.log(PostPage.map(post => post.graphql.shortcode_media.edge_sidecar_to_children));
             const list = {media: [],preview: []};
 
     		for (let j = 0; j < data.length; j++) {
