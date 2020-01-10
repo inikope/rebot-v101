@@ -88,18 +88,26 @@ app.get('/', (req, res) => {
 
 
     // Foto Vid IG
-    function instamedurl(token, igid){
+    function instamedurl(igid){
         const p1 = instaDown(igid).then(data => {
             const { entry_data: { PostPage } } = data;
             console.log(data);
             return PostPage.map(post => post.graphql.shortcode_media)
-        }).then(images => images.map(img => img.display_url))
-        Promise.all([p1]).then(function(values){
-            console.log(values[0][0]);
-            return client.replyMessage(token, {
-                type: "image", originalContentUrl: values[0][0], previewImageUrl: values[0][0]
-            });
         })
+        Promise.all([p1]).then(function(values){
+            console.log(values);
+            return values;
+        })
+    }
+
+    function IGfoto(token,link){
+        const values = instamedurl(link);
+        const url = values.map(img => img.display_url);
+        return client.replyMessage(token, {
+            type: "image", originalContentUrl: url[0], previewImageUrl: url[0]
+        });
+
+
     }
 
   // event handler
@@ -132,10 +140,10 @@ app.get('/', (req, res) => {
             const link = splittedText[1];
             switch (inicommand) {
                 case '/videoig':
-                    return instamedurl(event.replyToken, link);
+                    return IGfoto(event.replyToken, link);
                     break;
                 case '/fotoig':
-                    return instamedurl(event.replyToken, link);
+                    return IGfoto(event.replyToken, link);
                     break;
                 case '/captionig':
                     return replyText(event.replyToken, tutorCaption);
