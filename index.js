@@ -91,7 +91,7 @@ app.get('/', (req, res) => {
     function IGfoto(token, igid){
         const p1 = instaDown(igid).then(data => {
             const { entry_data: { PostPage } } = data;
-            console.log(data);
+            console.log(PostPage.map(post => post.graphql.shortcode_media));
             return PostPage.map(post => post.graphql.shortcode_media)
         }).then(images => images.map(img => img.display_url))
         Promise.all([p1]).then(function(values){
