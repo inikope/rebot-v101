@@ -107,7 +107,9 @@ app.get('/', (req, res) => {
             return PostPage.map(post => post.graphql.shortcode_media)
         }).catch(function(){
             return replyText(token,"Looks like the account is private.")
-        }).then(images => images.map(img => img.display_url))
+        }).then(images => images.map(img => img.display_url)).catch(function(){
+            return replyText(token,"Looks like the account is private.")
+        })
         Promise.all([p1]).then(function(values){
             console.log(values);
             return client.replyMessage(token, {
@@ -124,14 +126,18 @@ app.get('/', (req, res) => {
             return PostPage.map(post => post.graphql.shortcode_media)
         }).catch(function(){
             return replyText(token,"Looks like the account is private.")
-        }).then(images => images.map(img => img.display_url))
+        }).then(images => images.map(img => img.display_url)).catch(function(){
+            return replyText(token,"Looks like the account is private.")
+        })
         const p2 = instaDown(igid).then(data => {
             const { entry_data: { PostPage } } = data;
             console.log(PostPage.map(post => post.graphql.shortcode_media));
             return PostPage.map(post => post.graphql.shortcode_media)
         }).catch(function(){
             return replyText(token,"Looks like the account is private.")
-        }).then(images => images.map(img => img.video_url))
+        }).then(images => images.map(img => img.video_url)).catch(function(){
+            return replyText(token,"Looks like the account is private.")
+        })
         Promise.all([p1,p2]).then(function(values){
             console.log(values);
             return client.replyMessage(token, {
