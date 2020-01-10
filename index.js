@@ -91,6 +91,7 @@ app.get('/', (req, res) => {
         const p1 = instaDown(igid).then(hasil => {
             const { entry_data: { PostPage } } = hasil;
             const data = PostPage.map(post => post.graphql.shortcode_media.edge_sidecar_to_children.edges);
+            console.log(data[0].length);
             const list = {media: [],preview: []};
 
     		for (let j = 0; j < data[0].length; j++) {
@@ -100,6 +101,7 @@ app.get('/', (req, res) => {
                 videoUrl === undefined ? list.media.push(edge) : list.media.push(videoUrl);
                 list.preview.push(edge);
             }
+            console.log("data: " + {data: list});
     	    return {data: list};
         })
         Promise.all([p1]).then(function(values){
