@@ -88,22 +88,20 @@ app.get('/', (req, res) => {
 
     // Multipost IG
     function IGmulti(token, igid, number){
-        const p1 = instaDown(igid).then(hasil => {
+        const p1 = instaDown(igid).then(function(hasil){
             const { entry_data: { PostPage } } = hasil;
             const data = PostPage.map(post => post.graphql.shortcode_media.edge_sidecar_to_children.edges);
             console.log(data);
             const list = {media: [],preview: []};
 
     		for (let j = 0; j < data.length; j++) {
-                console.log(data[j]);
+                console.log(data[j].node.display_url);
 	    		const videoUrl = data[j].node.video_url;
 		    	const edge = data[j].node.display_url;
                 videoUrl === undefined ? list.media.push(edge) : list.media.push(videoUrl);
                 list.preview.push(edge);
             }
     	    return {data: list};
-        }).catch(function(){
-            return replyText(token,"Maaf, sepertinya akunnya private.")
         })
         Promise.all([p1]).then(function(values){
             console.log(values);
