@@ -90,11 +90,13 @@ app.get('/', (req, res) => {
     function IGmulti(token, igid, number){
         const p1 = instaDown(igid).then(hasil => {
             const { entry_data: { PostPage } } = hasil;
-            const data = PostPage.map(post => post.graphql.shortcode_media.edge_sidecar_to_children.edges);
+            return PostPage.map(post => post.graphql.shortcode_media.edge_sidecar_to_children.edges);
+        }).then(data => {
             const lebar = data[0].length;
             const list = {media: [],preview: []};
 
     		for (let j = 0; j < lebar; j++) {
+                console.log("Lebar: " + lebar);
                 console.log("data[0]["+j+"].display_url: "+ data[0][j].node.display_url);
 	    		const videoUrl = data[j].node.video_url;
 		    	const edge = data[j].node.display_url;
