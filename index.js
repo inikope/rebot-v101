@@ -103,6 +103,7 @@ app.get('/', (req, res) => {
     function IGfoto(token,link){
         const values = instamedurl(link);
         const url = values.map(img => img.display_url);
+        console.log(url);
         return client.replyMessage(token, {
             type: "image", originalContentUrl: url[0], previewImageUrl: url[0]
         });
