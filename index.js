@@ -86,6 +86,15 @@ app.get('/', (req, res) => {
         })
     }
 
+    function IGcapt(token, igid){
+        const p1 = instaDown(igid).then(data => {
+            const { entry_data: { PostPage } } = data;
+            console.log(PostPage.map(post => post.graphql.shortcode_media));
+            return PostPage.map(post => post.graphql.shortcode_media)
+        }).then(images => images.map(img => img.edge_media_to_caption))
+        .then(console.log)
+    }
+
 
     // Foto Vid IG
     function IGfoto(token, igid){
@@ -133,7 +142,7 @@ app.get('/', (req, res) => {
     const tutorPP 		= "Begini nih cara menggunakan commandnya\n\n/profilig (username instagram)";
     const errormess 	= "Terima kasih atas pesannya\nSayang sekali, akun ini masih goblok";
     const sendIntro 	=  "𝙍𝙀:𝘽𝙊𝙏 dapat melakukan beberapa hal loh..\nCoba yuk!\nKetik /help untuk melihat command-command yang kami punya.\n\n\u2605";
-    const aboutMe 		= "𝙍𝙀:𝘽𝙊𝙏 adalah adalah chatbot yang dapat membantumu menyimpan foto maupun video dari Instagram.\n\n𝙍𝙀:𝘽𝙊𝙏 dibuat oleh:\n- [2201801636] Hans Nugroho Gianto Hadiwijaya\n- [2201758285] Casandra\n- [2201787915] Mita\n\n\n\uD83C\uDF6C";
+    const aboutMe 		= "𝙍𝙀:𝘽𝙊𝙏 adalah chatbot yang dapat membantumu menyimpan foto maupun video dari Instagram.\n\n𝙍𝙀:𝘽𝙊𝙏 dibuat oleh:\n- [2201801636] Hans Nugroho Gianto Hadiwijaya\n- [2201758285] Casandra\n- [2201787915] Mita\n\n\n\uD83C\uDF6C";
     const sendHello 	= "Welcome to 𝙍𝙀:𝘽𝙊𝙏!\n\n𝙍𝙀:𝘽𝙊𝙏 dapat melakukan beberapa hal loh..\nCoba yuk!\nKetik /help untuk melihat command-command yang kami punya.";
 
 
@@ -156,7 +165,7 @@ app.get('/', (req, res) => {
                     return IGfoto(event.replyToken, link);
                     break;
                 case '/captionig':
-                    return replyText(event.replyToken, tutorCaption);
+                    return IGcapt(event.replyToken, link);
                     break;
                 case '/storyig':
                     return replyText(event.replyToken, tutorStory);
