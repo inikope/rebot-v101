@@ -95,6 +95,7 @@ app.get('/', (req, res) => {
             const list = {media: [],preview: []};
 
     		for (let j = 0; j < data.length; j++) {
+                console.log(data[j]);
 	    		const videoUrl = data[j].node.video_url;
 		    	const edge = data[j].node.display_url;
                 videoUrl === undefined ? list.media.push(edge) : list.media.push(videoUrl);
@@ -102,7 +103,7 @@ app.get('/', (req, res) => {
             }
     	    return {data: list};
         }).catch(function(){
-            return replyText(token,"Looks like the account is private.")
+            return replyText(token,"Maaf, sepertinya akunnya private.")
         })
         Promise.all([p1]).then(function(values){
             console.log(values);
@@ -115,7 +116,7 @@ app.get('/', (req, res) => {
                     type: "image", originalContentUrl: values.data.list.media[number], previewImageUrl: values.data.list.preview[number]
                 })
             }}).catch(function(){
-                return replyText(token,"Looks like the account is private.")
+                return replyText(token,"Maaf, sepertinya akunnya private.")
             });
     }
 
@@ -126,15 +127,15 @@ app.get('/', (req, res) => {
             console.log(PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges[0]));
             return PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges[0])
         }).catch(function(){
-            return replyText(token,"Looks like the account is private.")
+            return replyText(token,"Maaf, sepertinya akunnya private.")
         }).then(images => images.map(img => img.node.text)).catch(function(){
-            return replyText(token,"Looks like the account is private.")
+            return replyText(token,"Maaf, sepertinya akunnya private.")
         })
         Promise.all([p1]).then(function(values){
             console.log(values[0][0]);
             return replyText(token, "𝐂𝐚𝐩𝐭𝐢𝐨𝐧:\n" + values[0][0]);
             }).catch(function(){
-                return replyText(token,"Looks like the account is private.")
+                return replyText(token,"Maaf, sepertinya akunnya private.")
             });
         }
 
@@ -146,16 +147,16 @@ app.get('/', (req, res) => {
             console.log(PostPage.map(post => post.graphql.shortcode_media));
             return PostPage.map(post => post.graphql.shortcode_media)
         }).catch(function(){
-            return replyText(token,"Looks like the account is private.")
+            return replyText(token,"Maaf, sepertinya akunnya private.")
         }).then(images => images.map(img => img.display_url)).catch(function(){
-            return replyText(token,"Looks like the account is private.")
+            return replyText(token,"Maaf, sepertinya akunnya private.")
         })
         Promise.all([p1]).then(function(values){
             console.log(values);
             return client.replyMessage(token, {
             type: "image", originalContentUrl: values[0][0], previewImageUrl: values[0][0]
         }).catch(function(){
-            return replyText(token,"Looks like the account is private.")
+            return replyText(token,"Maaf, sepertinya akunnya private.")
         });
         })
     }
@@ -165,25 +166,25 @@ app.get('/', (req, res) => {
             console.log(PostPage.map(post => post.graphql.shortcode_media));
             return PostPage.map(post => post.graphql.shortcode_media)
         }).catch(function(){
-            return replyText(token,"Looks like the account is private.")
+            return replyText(token,"Maaf, sepertinya akunnya private.")
         }).then(images => images.map(img => img.display_url)).catch(function(){
-            return replyText(token,"Looks like the account is private.")
+            return replyText(token,"Maaf, sepertinya akunnya private.")
         })
         const p2 = instaDown(igid).then(data => {
             const { entry_data: { PostPage } } = data;
             console.log(PostPage.map(post => post.graphql.shortcode_media));
             return PostPage.map(post => post.graphql.shortcode_media)
         }).catch(function(){
-            return replyText(token,"Looks like the account is private.")
+            return replyText(token,"Maaf, sepertinya akunnya private.")
         }).then(images => images.map(img => img.video_url)).catch(function(){
-            return replyText(token,"Looks like the account is private.")
+            return replyText(token,"Maaf, sepertinya akunnya private.")
         })
         Promise.all([p1,p2]).then(function(values){
             console.log(values);
             return client.replyMessage(token, {
             type: "video", originalContentUrl: values[1][0], previewImageUrl: values[0][0]
         }).catch(function(){
-            return replyText(token,"Looks like the account is private.")
+            return replyText(token,"Maaf, sepertinya akunnya private.")
         });
         })
     }
