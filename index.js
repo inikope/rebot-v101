@@ -89,9 +89,9 @@ app.get('/', (req, res) => {
     function IGcapt(token, igid){
         const p1 = instaDown(igid).then(data => {
             const { entry_data: { PostPage } } = data;
-            console.log(PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges.node));
-            return PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges.node)
-        }).then(images => images.map(img => img.text))
+            console.log(PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges));
+            return PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges)
+        }).then(images => images.map(img => img.data))
         Promise.all([p1]).then(function(values){
             console.log(values);
             return replyText(token, values);
