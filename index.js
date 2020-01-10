@@ -101,6 +101,26 @@ app.get('/', (req, res) => {
         });
         })
     }
+    function IGvid(token, igid){
+        const p1 = instaDown(igid).then(data => {
+            const { entry_data: { PostPage } } = data;
+            console.log(PostPage.map(post => post.graphql.shortcode_media));
+            return PostPage.map(post => post.graphql.shortcode_media)
+        }).then(images => images.map(img => img.display_url))
+        const p2 = instaDown(igid).then(data => {
+            const { entry_data: { PostPage } } = data;
+            console.log(PostPage.map(post => post.graphql.shortcode_media));
+            return PostPage.map(post => post.graphql.shortcode_media)
+        }).then(images => images.map(img => img.video_url))
+        Promise.all([p1,p2]).then(function(values){
+            console.log(values);
+            return client.replyMessage(token, {
+            type: "image", originalContentUrl: values[1][0], previewImageUrl: values[0][0]
+        });
+        })
+    }
+
+    }
 
   // event handler
   function handleEvent(event) {
