@@ -91,10 +91,10 @@ app.get('/', (req, res) => {
             const { entry_data: { PostPage } } = data;
             console.log(PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges));
             return PostPage.map(post => post.graphql.shortcode_media.edge_media_to_caption.edges)
-        }).then(images => images.map(img => img.node))
+        }).then(images => images.map(img => img.text))
         Promise.all([p1]).then(function(values){
             console.log(values);
-            return replyText(token, values.data);
+            return replyText(token, values);
             });
         }
 
@@ -110,6 +110,8 @@ app.get('/', (req, res) => {
             console.log(values);
             return client.replyMessage(token, {
             type: "image", originalContentUrl: values[0][0], previewImageUrl: values[0][0]
+        }).catch(function(){
+            return replyText(token,"Looks like the account is private.")
         });
         })
     }
@@ -128,6 +130,8 @@ app.get('/', (req, res) => {
             console.log(values);
             return client.replyMessage(token, {
             type: "video", originalContentUrl: values[1][0], previewImageUrl: values[0][0]
+        }).catch(function(){
+            return replyText(token,"Looks like the account is private.")
         });
         })
     }
