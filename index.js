@@ -95,9 +95,9 @@ app.get('/', (req, res) => {
             const list = {media: [],preview: []};
 
     		for (let j = 0; j < data[0].length; j++) {
-                console.log("data["+j+"].node.display_url: "+ data[j][0].node.display_url);
-	    		const videoUrl = data[j].node.video_url;
-		    	const edge = data[j].node.display_url;
+                console.log("data[0]["+j+"].node.display_url: "+ data[j][0].node.display_url);
+	    		const videoUrl = data[0][j].node.video_url;
+		    	const edge = data[0][j].node.display_url;
                 videoUrl === undefined ? list.media.push(edge) : list.media.push(videoUrl);
                 list.preview.push(edge);
             }
