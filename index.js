@@ -98,8 +98,8 @@ app.get('/', (req, res) => {
     		for (let skazjla = 0; skazjla < lebar; skazjla++) {
                 console.log("Lebar: " + lebar);
                 console.log("data[0]["+skazjla+"].display_url: "+ data[0][skazjla].node.display_url);
-                const videoUrl = data[skazjla].node.video_url;
-                console.log("Video: "+data[skazjla].node.video_url);
+                const videoUrl = data[0][skazjla].node.video_url;
+                console.log("Video: "+data[0][skazjla].node.video_url);
                 const edge = data[skazjla].node.display_url;
                 console.log("DisplayUrl: "+data[skazjla].node.display_url);
                 videoUrl === undefined ? list.media.push(edge) : list.media.push(videoUrl);
