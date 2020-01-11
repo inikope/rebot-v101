@@ -96,22 +96,17 @@ app.get('/', (req, res) => {
             const list = {media: [],preview: []};
 
     		for (let skazjla = 0; skazjla < lebar; skazjla++) {
-                console.log("Lebar: " + lebar);
-                console.log("data[0]["+skazjla+"].display_url: "+ data[0][skazjla].node.display_url);
                 const videoUrl = data[0][skazjla].node.video_url;
-                console.log("Video: "+data[0][skazjla].node.video_url);
                 const edge = data[0][skazjla].node.display_url;
-                console.log("DisplayUrl: "+data[0][skazjla].node.display_url);
                 videoUrl === undefined ? list.media.push(edge) : list.media.push(videoUrl);
-                console.log("push");
                 list.preview.push(edge);
-                console.log("push");
             }
             console.log("data: " + {data: list});
     	    return {data: list};
         })
         Promise.all([p1]).then(function(values){
-            console.log("values.data.list: " + values.data.list);
+            console.log("values: " + values);
+            console.log("values.data: " + values.data);
             if(values.data.list.media[number].includes(".mp4")){
                 return client.replyMessage(token, {
                     type: "video", originalContentUrl: values.data.list.media[number], previewImageUrl: values.data.list.preview[number]
