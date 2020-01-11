@@ -120,9 +120,9 @@ app.get('/', (req, res) => {
                 return client.replyMessage(token, {
                     type: "image", originalContentUrl: values.data.list.media[number], previewImageUrl: values.data.list.preview[number]
                 })
-            }}).catch(function(){
-                return replyText(token,"Maaf, sepertinya akunnya private.")
-            });
+            }})//.catch(function(){
+            //    return replyText(token,"Maaf, sepertinya akunnya private.")
+            //});
     }
 
     // Caption IG
