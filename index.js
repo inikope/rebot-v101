@@ -107,7 +107,7 @@ app.get('/', (req, res) => {
         Promise.all([p1]).then(function(values){
             console.log("values[0].media[0]: " + values[0].media[0]);
             console.log("values[0].preview[0]: " + values[0].preview[0]);
-            if(values.media[number].includes(".mp4")){
+            if(values[0].media[number].includes(".mp4")){
                 return client.replyMessage(token, {
                     type: "video", originalContentUrl: values[0].media[number], previewImageUrl: values[0].preview[number]
                 })
@@ -115,9 +115,9 @@ app.get('/', (req, res) => {
                 return client.replyMessage(token, {
                     type: "image", originalContentUrl: values[0].media[number], previewImageUrl: values[0].preview[number]
                 })
-            }})//.catch(function(){
-            //    return replyText(token,"Maaf, sepertinya akunnya private.")
-            //});
+            }}).catch(function(){
+                return replyText(token,"Maaf, sepertinya akunnya private... Atau, angka yang kamu masukkan kelebihan... ?")
+            });
     }
 
     // Caption IG
