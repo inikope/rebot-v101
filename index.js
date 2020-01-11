@@ -111,7 +111,7 @@ app.get('/', (req, res) => {
     	    return {data: list};
         })
         Promise.all([p1]).then(function(values){
-            console.log("values.data.media: " + values.data.media);
+            console.log("values.data.list: " + values.data.list);
             if(values.data.list.media[number].includes(".mp4")){
                 return client.replyMessage(token, {
                     type: "video", originalContentUrl: values.data.list.media[number], previewImageUrl: values.data.list.preview[number]
