@@ -105,15 +105,15 @@ app.get('/', (req, res) => {
     	    return list;
         })
         Promise.all([p1]).then(function(values){
-            console.log("values.media: " + values.media);
-            console.log("values.preview: " + values.preview);
-            if(values.data.list.media[number].includes(".mp4")){
+            console.log("values.media: " + values.media[0]);
+            console.log("values.preview: " + values.preview[0]);
+            if(values.media[number].includes(".mp4")){
                 return client.replyMessage(token, {
-                    type: "video", originalContentUrl: values.data.list.media[number], previewImageUrl: values.data.list.preview[number]
+                    type: "video", originalContentUrl: values.media[number], previewImageUrl: values.preview[number]
                 })
             } else {
                 return client.replyMessage(token, {
-                    type: "image", originalContentUrl: values.data.list.media[number], previewImageUrl: values.data.list.preview[number]
+                    type: "image", originalContentUrl: values.media[number], previewImageUrl: values.preview[number]
                 })
             }})//.catch(function(){
             //    return replyText(token,"Maaf, sepertinya akunnya private.")
