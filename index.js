@@ -101,12 +101,12 @@ app.get('/', (req, res) => {
                 videoUrl === undefined ? list.media.push(edge) : list.media.push(videoUrl);
                 list.preview.push(edge);
             }
-            console.log("data: " + {data: list});
-    	    return {data: list};
+            console.log("data: " + list);
+    	    return list;
         })
         Promise.all([p1]).then(function(values){
-            console.log("values.[0].data " + values[0].data);
-            console.log("values[0][0]: " + values[0][0]);
+            console.log("values" + values);
+            console.log("values.media" + values.media);
             if(values.data.list.media[number].includes(".mp4")){
                 return client.replyMessage(token, {
                     type: "video", originalContentUrl: values.data.list.media[number], previewImageUrl: values.data.list.preview[number]
