@@ -115,9 +115,9 @@ app.get('/', (req, res) => {
                 return client.replyMessage(token, {
                     type: "image", originalContentUrl: values[0].media[number], previewImageUrl: values[0].preview[number]
                 })
-            }}).catch(function(){
-                return replyText(token,"Maaf, sepertinya akunnya private.")
-            });
+            }})//.catch(function(){
+            //    return replyText(token,"Maaf, sepertinya akunnya private.")
+            //});
     }
 
     // Caption IG
